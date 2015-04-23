@@ -7,7 +7,8 @@
 //
 
 #import "FISAppDelegate.h"
-
+#import "FISLocation.h"
+#import "FISTrivia.h"
 @implementation FISAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -25,8 +26,6 @@
     NSLog(@"%@",[self createLocationWithName:@"Joe" Latitude:@32 Longitude:@43]);
     return YES;
 }
-
-
 
 - (NSString *)shortenLocationNameWithLocation:(NSDictionary *)location ToCount:(NSInteger)count
 {
@@ -47,9 +46,9 @@
 -(NSArray *)getLocationNamesWithLocations:(NSArray *)locations
 {
     NSMutableArray *resultArray = [[NSMutableArray alloc] init];
-    for (NSDictionary *location in locations) {
-        NSString *name = location[@"name"];
-        [resultArray addObject:name];
+    for (FISLocation *location in locations) {
+        NSString *nameForLocation = location.name;
+        [resultArray addObject:nameForLocation];
     }
 
     return resultArray;
@@ -65,12 +64,13 @@
         return YES;
     }
     return NO;
-}
+}   
 
-- (NSDictionary *)searchForLocationName:(NSString *)name inLocations:(NSArray *)locations
+
+- (FISLocation *)searchForLocationName:(NSString *)name inLocations:(NSArray *)locations
 {
-    for (NSDictionary *location in locations) {
-        NSString *locationName = location[@"name"];
+    for (FISLocation *location in locations) {
+        NSString *locationName = location.name;
         if ([locationName isEqualToString:name]) {
             return location;
         }
