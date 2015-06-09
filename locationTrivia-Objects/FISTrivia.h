@@ -9,7 +9,11 @@
 #import <Foundation/Foundation.h>
 @interface FISTrivia : NSObject
 
-@property (nonatomic, strong) NSString *content;
+@property (strong, nonatomic) NSString *content;
 @property (nonatomic) NSInteger likes;
-- (instancetype) initWithContent: (NSString *)content Likes: (NSInteger)likes;
+
+- (instancetype)initWithContent:(NSString *)content Likes:(NSInteger)likes;
+
+
+
 @end

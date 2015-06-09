@@ -10,14 +10,15 @@
 @class FISTrivia;
 
 @interface FISLocation : NSObject
-
 @property (strong, nonatomic) NSString *name;
-@property (strong, nonatomic) NSNumber *longitude;
 @property (strong, nonatomic) NSNumber *latitude;
+@property (strong, nonatomic) NSNumber *longitude;
 @property (strong, nonatomic) NSMutableArray *triviaItems;
 
-- (instancetype)initWithName:(NSString *)name latitude:(NSNumber *)latitude longitude:(NSNumber *)longitude;
-- (NSString *)shortenedNameToLength:(NSInteger)length;
--(BOOL)verifyLocation;
-- (FISTrivia *)mostLikedTriviaItem;
+- (BOOL)verifyLocation;
+- (NSString *)shortenedNameToLength:(NSInteger)count;
+- (instancetype)initWithLocation:(NSString *)name Longitude:(NSNumber *)longitude Latitude:(NSNumber *)latitude;
+- (FISTrivia *)mostLikes;
 @end
+
+

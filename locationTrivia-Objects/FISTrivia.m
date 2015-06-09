@@ -9,20 +9,20 @@
 #import "FISTrivia.h"
 
 @implementation FISTrivia
-
-- (instancetype) init
+- (instancetype)initWithContent:(NSString *)content Likes:(NSInteger)likes
 {
-    return [self initWithContent:@"" Likes:0];
-}
-- (instancetype) initWithContent: (NSString *)content Likes: (NSInteger)likes
-
-{
-    if (self = [super init]) {
+    self = [super init];
+    
+    if (self) {
         _content = content;
         _likes = likes;
     }
+    
     return self;
 }
 
-
+- (instancetype)init
+{
+    return [self initWithContent:@"" Likes:0];
+}
 @end

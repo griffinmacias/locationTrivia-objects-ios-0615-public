@@ -11,34 +11,30 @@
 
 @implementation FISLocation
 
--(instancetype)initWithName:(NSString *)name latitude:(NSNumber *)latitude longitude:(NSNumber *)longitude
+
+- (BOOL)verifyLocation
 
 {
     
-    if (self = [super init])
-        
-    {
-        
-        _name = name;
-        _latitude = latitude;
-        _longitude = longitude;
-        
+    BOOL logicalLongitudeCoordinates = self.longitude.floatValue >= -180 && self.longitude.floatValue <= 180;
+    BOOL logicalLatitudeCoordinates = self.latitude.floatValue >= -90 && self.latitude.floatValue <= 90;
+    
+    
+    if (logicalLongitudeCoordinates && logicalLatitudeCoordinates) {
+        if (![self.name isEqual:@""]) {
+            return YES;
+        }
     }
     
-    return self;
+    return NO;
     
 }
 
 
-
--(NSString *)shortenedNameToLength:(NSInteger)length
-
+- (NSString *)shortenedNameToLength:(NSInteger)count
 {
-    
-    if (length > 0) {
-        
-        self.name = [NSString stringWithFormat:@"%@", [self.name substringToIndex:length]];
-        
+    if ([self.name length] > count) {
+      return [self.name substringToIndex:count];
     }
     
     return self.name;
@@ -46,51 +42,31 @@
 }
 
 
-
--(BOOL)verifyLocation
-
+- (instancetype)initWithLocation:(NSString *)name Longitude:(NSNumber *)longitude Latitude:(NSNumber *)latitude
 {
+    self = [super init];
     
-    if ([self.name isEqualToString:@""])
-        
-    {
-        
-        return NO;
-        
+    if (self) {
+        _name = name;
+        _longitude = longitude;
+        _latitude = latitude;
+        _triviaItems = [[NSMutableArray alloc] init];
     }
     
-    if (abs([self.latitude intValue]) > 90 || abs([self.longitude intValue]) > 180)  {
-        
-        return  NO;
-        
-    }
+    return self;
+}
+
+- (instancetype)init
+{
+    return [self initWithLocation:@"" Longitude:@0 Latitude:@0];
+}
+
+- (FISTrivia *)mostLikes
+{
+
+    return [self.triviaItems valueForKeyPath:@"@max.intValue"];
     
-    return YES;
     
 }
 
-- (FISTrivia *)mostLikedTriviaItem:(NSArray *)locations
-{
- NSMutableArray *triviaItems = [NSMutableArray new];
-    
-      for (FISLocation *location in locations)
-      {
-        
-      for (FISTrivia *trivia in location.triviaItems)
-      {
-          
-       [triviaItems addObject:@{@"object":trivia, @"likes":[NSNumber numberWithInteger: trivia.likes]}];
-        
-      }
-          
-    }
-    
-NSSortDescriptor *mostLikes = [[NSSortDescriptor alloc] initWithKey:@"likes" ascending:NO];
-    
-    
-        NSArray *triviaSortedByLikes = [triviaItems sortedArrayUsingDescriptors:@[mostLikes]];
-    
-        return [triviaSortedByLikes objectAtIndex:0];
-    
-}
 @end
